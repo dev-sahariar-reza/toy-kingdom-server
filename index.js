@@ -29,6 +29,16 @@ async function run() {
     // collections
     const toyCollection = client.db("toysDB").collection("toys");
 
+    // JWT
+    app.post("/jwt", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "7d",
+      });
+      res.send({ token });
+    });
+
     // get all toys data
     app.get("/toys", async (req, res) => {
       const result = await toyCollection.find().toArray();
